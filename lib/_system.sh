@@ -9,29 +9,25 @@
 #######################################
 system_create_user() {
   print_banner
-  printf "${WHITE} 💻 Agora, vamos criar o USUÁRIO ${deploy_user}...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Agora, Criando o USUÁRIO ${deploy_user}...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
- sudo su - ${deploy_user} <<EOF
-if id "$deploy_user" &>/dev/null; then
-    echo "O usuário $deploy_user já existe."
+sudo su - root <<EOF
+if id "${deploy_user}" &>/dev/null; then
+    echo "O usuário ${deploy_user} já existe."
     exit 1
 fi
 
-sudo useradd -m "$deploy_user" # -m cria o diretório home
-echo -e "$deploy_password\n$deploy_password" | sudo passwd "$deploy_user"
+sudo useradd -m "${deploy_user}" # -m cria o diretório home
+echo -e "${deploy_password}\n${deploy_password}" | sudo passwd "${deploy_user}"
 
-echo "Usuário $deploy_user criado com sucesso!"
+echo "Usuário ${deploy_user} criado com sucesso!"
 
 EOF
-
-
-
 #  useradd -m -p $(openssl passwd -crypt $deploy_password) -s /bin/bash -G ${deploy_user}
 #  usermod -aG sudo ${deploy_user}
-
 
   sleep 2
 }
