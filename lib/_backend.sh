@@ -107,7 +107,7 @@ backend_node_dependencies() {
   sleep 2
 
   sudo su - ${deploy_user}<<EOF
-  cd /home/wdeploy/whaticket/backend
+  cd /home/${deploy_user}/whaticket/backend
   npm install
 EOF
 
@@ -127,7 +127,7 @@ backend_node_build() {
   sleep 2
 
   sudo su - ${deploy_user}<<EOF
-  cd /home/wdeploy/whaticket/backend
+  cd /home/${deploy_user}/whaticket/backend
   npm install
   npm run build
 EOF
@@ -148,7 +148,7 @@ backend_update() {
   sleep 2
 
   sudo su - ${deploy_user} <<EOF
-  cd /home/wdeploy/whaticket
+  cd /home/${deploy_user}/whaticket
   git pull
   cd /home/${deploy_user}/whaticket/backend
   npm install
