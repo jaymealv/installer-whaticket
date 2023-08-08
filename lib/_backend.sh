@@ -7,29 +7,48 @@
 # Arguments:
 #   None
 #######################################
+# backend_mysql_create() {
+#   print_banner
+#   printf "${WHITE} 💻 Criando banco de dados...${GRAY_LIGHT}"
+#   printf "\n\n"
+
+#   sleep 2
+
+#   sudo su - root <<EOF
+#   usermod -aG docker wdeploy
+#   docker run --name whaticketdb \
+#                 -e MYSQL_ROOT_PASSWORD=${mysql_root_password} \
+#                 -e MYSQL_DATABASE=${db_name} \
+#                 -e MYSQL_USER=${db_user} \
+#                 -e MYSQL_PASSWORD=${db_pass} \
+#              --restart always \
+#                 -p 3306:3306 \
+#                 -d mariadb:latest \
+#              --character-set-server=utf8mb4 \
+#              --collation-server=utf8mb4_bin
+# EOF
+
+#   sleep 2
+# }
+
+#######################################
+# creates mysql db using docker
+# Arguments:
+# Function to create a sample database and table, and insert a record
+#######################################
 backend_mysql_create() {
-  print_banner
-  printf "${WHITE} 💻 Criando banco de dados...${GRAY_LIGHT}"
-  printf "\n\n"
+#    local db_user="your_mysql_user"
+#    local db_password="your_mysql_password"
+#    local db_name="sample_db"
+    local table_name="sample_table"
 
-  sleep 2
-
-  sudo su - root <<EOF
-  usermod -aG docker deploy
-  docker run --name whaticketdb \
-                -e MYSQL_ROOT_PASSWORD=${mysql_root_password} \
-                -e MYSQL_DATABASE=${db_name} \
-                -e MYSQL_USER=${db_user} \
-                -e MYSQL_PASSWORD=${db_pass} \
-             --restart always \
-                -p 3306:3306 \
-                -d mariadb:latest \
-             --character-set-server=utf8mb4 \
-             --collation-server=utf8mb4_bin
+    # Create the database and table
+    mysql -u "$db_user" -p"$mysql_root_password" <<EOF
+    CREATE DATABASE IF NOT EXISTS $db_name;
+    USE $db_name;
 EOF
-
-  sleep 2
 }
+
 
 #######################################
 # sets environment variable for backend.
@@ -53,8 +72,8 @@ backend_set_env() {
   frontend_url=${frontend_url%%/*}
   frontend_url=https://$frontend_url
 
-sudo su - deploy << EOF
-  cat <<[-]EOF > /home/deploy/whaticket/backend/.env
+sudo su - wdeploy << EOF
+  cat <<[-]EOF > /home/wdeploy/whaticket/backend/.env
 NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
@@ -87,8 +106,8 @@ backend_node_dependencies() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/backend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/backend
   npm install
 EOF
 
@@ -107,8 +126,8 @@ backend_node_build() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/backend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/backend
   npm install
   npm run build
 EOF
@@ -128,10 +147,10 @@ backend_update() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket
   git pull
-  cd /home/deploy/whaticket/backend
+  cd /home/wdeploy/whaticket/backend
   npm install
   rm -rf dist 
   npm run build
@@ -155,8 +174,8 @@ backend_db_migrate() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/backend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/backend
   npx sequelize db:migrate
 EOF
 
@@ -175,8 +194,8 @@ backend_db_seed() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/backend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/backend
   npx sequelize db:seed:all
 EOF
 
@@ -196,8 +215,8 @@ backend_start_pm2() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/backend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/backend
   pm2 start dist/server.js --name whaticket-backend
 EOF
 
@@ -225,7 +244,7 @@ server {
   server_name $backend_hostname;
 
   location / {
-    proxy_pass http://127.0.0.1:8080;
+    proxy_pass http://127.0.0.1:8081;
     proxy_http_version 1.1;
     proxy_set_header Upgrade \$http_upgrade;
     proxy_set_header Connection 'upgrade';

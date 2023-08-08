@@ -14,8 +14,8 @@ frontend_node_dependencies() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/frontend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/frontend
   npm install
 EOF
 
@@ -34,8 +34,8 @@ frontend_node_build() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/frontend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/frontend
   npm install
   npm run build
 EOF
@@ -55,10 +55,10 @@ frontend_update() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket
   git pull
-  cd /home/deploy/whaticket/frontend
+  cd /home/wdeploy/whaticket/frontend
   npm install
   rm -rf build
   npm run build
@@ -86,8 +86,8 @@ frontend_set_env() {
   backend_url=${backend_url%%/*}
   backend_url=https://$backend_url
 
-sudo su - deploy << EOF
-  cat <<[-]EOF > /home/deploy/whaticket/frontend/.env
+sudo su - wdeploy << EOF
+  cat <<[-]EOF > /home/wdeploy/whaticket/frontend/.env
 REACT_APP_BACKEND_URL=${backend_url}
 [-]EOF
 EOF
@@ -107,8 +107,8 @@ frontend_start_pm2() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  cd /home/deploy/whaticket/frontend
+  sudo su - wdeploy <<EOF
+  cd /home/wdeploy/whaticket/frontend
   pm2 start server.js --name whaticket-frontend
   pm2 save
 EOF
@@ -137,7 +137,7 @@ server {
   server_name $frontend_hostname;
 
   location / {
-    proxy_pass http://127.0.0.1:3333;
+    proxy_pass http://127.0.0.1:7773;
     proxy_http_version 1.1;
     proxy_set_header Upgrade \$http_upgrade;
     proxy_set_header Connection 'upgrade';
