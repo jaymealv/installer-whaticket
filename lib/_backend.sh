@@ -15,7 +15,7 @@
 #   sleep 2
 
 #   sudo su - root <<EOF
-#   usermod -aG docker wdeploy
+#   usermod -aG docker ${$deploy_user}
 #   docker run --name whaticketdb \
 #                 -e MYSQL_ROOT_PASSWORD=${mysql_root_password} \
 #                 -e MYSQL_DATABASE=${db_name} \
@@ -72,8 +72,8 @@ backend_set_env() {
   frontend_url=${frontend_url%%/*}
   frontend_url=https://$frontend_url
 
-sudo su - wdeploy << EOF
-  cat <<[-]EOF > /home/wdeploy/whaticket/backend/.env
+sudo su - ${deploy_user} << EOF
+  cat <<[-]EOF > /home/${deploy_user}/whaticket/backend/.env
 NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
@@ -106,7 +106,7 @@ backend_node_dependencies() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
+  sudo su - ${deploy_user}<<EOF
   cd /home/wdeploy/whaticket/backend
   npm install
 EOF
@@ -126,7 +126,7 @@ backend_node_build() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
+  sudo su - ${deploy_user}<<EOF
   cd /home/wdeploy/whaticket/backend
   npm install
   npm run build
@@ -147,10 +147,10 @@ backend_update() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
+  sudo su - ${deploy_user} <<EOF
   cd /home/wdeploy/whaticket
   git pull
-  cd /home/wdeploy/whaticket/backend
+  cd /home/${deploy_user}/whaticket/backend
   npm install
   rm -rf dist 
   npm run build
@@ -174,8 +174,8 @@ backend_db_migrate() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/backend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:migrate
 EOF
 
@@ -194,8 +194,8 @@ backend_db_seed() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/backend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:seed:all
 EOF
 
@@ -215,8 +215,8 @@ backend_start_pm2() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/backend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/backend
   pm2 start dist/server.js --name whaticket-backend
 EOF
 

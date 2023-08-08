@@ -14,8 +14,8 @@ frontend_node_dependencies() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/frontend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/frontend
   npm install
 EOF
 
@@ -34,8 +34,8 @@ frontend_node_build() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/frontend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/frontend
   npm install
   npm run build
 EOF
@@ -55,10 +55,10 @@ frontend_update() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket
   git pull
-  cd /home/wdeploy/whaticket/frontend
+  cd /home/${deploy_user}/whaticket/frontend
   npm install
   rm -rf build
   npm run build
@@ -86,8 +86,8 @@ frontend_set_env() {
   backend_url=${backend_url%%/*}
   backend_url=https://$backend_url
 
-sudo su - wdeploy << EOF
-  cat <<[-]EOF > /home/wdeploy/whaticket/frontend/.env
+sudo su - ${deploy_user} << EOF
+  cat <<[-]EOF > /home/${deploy_user}/whaticket/frontend/.env
 REACT_APP_BACKEND_URL=${backend_url}
 [-]EOF
 EOF
@@ -107,8 +107,8 @@ frontend_start_pm2() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  cd /home/wdeploy/whaticket/frontend
+  sudo su - ${deploy_user} <<EOF
+  cd /home/${deploy_user}/whaticket/frontend
   pm2 start server.js --name whaticket-frontend
   pm2 save
 EOF

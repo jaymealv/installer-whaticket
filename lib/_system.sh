@@ -9,15 +9,31 @@
 #######################################
 system_create_user() {
   print_banner
-  printf "${WHITE} 💻 Agora, vamos criar o usuário para wdeploy...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Agora, vamos criar o usuário para ${deploy_user}...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
-  sudo su - root <<EOF
-  useradd -m -p $(openssl passwd -crypt $deploy_password) -s /bin/bash -G sudo wdeploy
-  usermod -aG sudo wdeploy
+<<EOF
+
+# Verifica se o usuário já existe
+if id "$deploy_user" &>/dev/null; then
+    echo "O usuário $deploy_user já existe."
+    exit 1
+fi
+
+# Cria o usuário com a senha fornecida
+sudo useradd -m "$deploy_user" # -m cria o diretório home
+echo -e "$deploy_password\n$deploy_password" | sudo passwd "$deploy_user"
+
+echo "Usuário $deploy_user criado com sucesso!"
+
 EOF
+
+
+#  useradd -m -p $(openssl passwd -crypt $deploy_password) -s /bin/bash -G ${deploy_user}
+#  usermod -aG sudo ${deploy_user}
+
 
   sleep 2
 }
@@ -34,8 +50,8 @@ system_git_clone() {
 
   sleep 2
 
-  sudo su - wdeploy <<EOF
-  git clone https://github.com/jaymealv/whaticket /home/wdeploy/whaticket/
+  sudo su - ${deploy_user} <<EOF
+  git clone https://github.com/jaymealv/whaticket /home/${deploy_user}/whaticket/
 EOF
 
   sleep 2
@@ -188,8 +204,8 @@ system_pm2_install() {
 
   sudo su - root <<EOF
   npm install -g pm2
-  pm2 startup ubuntu -u deploy
-  env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u deploy --hp /home/deploy
+  pm2 startup ubuntu -u ${deploy_user}
+  env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u ${deploy_user} --hp /home/${deploy_user}
 EOF
 
   sleep 2
