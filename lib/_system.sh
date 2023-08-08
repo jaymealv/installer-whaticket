@@ -12,7 +12,7 @@ system_create_user() {
   printf "${WHITE} 💻 Agora, Criando o USUÁRIO ${deploy_user}...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
 sudo su - root <<EOF
 if id "${deploy_user}" &>/dev/null; then
@@ -42,7 +42,7 @@ system_git_clone() {
   printf "${WHITE} 💻 Fazendo download do código whaticket...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   git clone https://github.com/jaymealv/whaticket /home/${deploy_user}/whaticket/
@@ -61,7 +61,7 @@ system_update() {
   printf "${WHITE} 💻 Vamos atualizar o sistema...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt -y update && apt -y upgrade
@@ -81,7 +81,7 @@ system_node_install() {
   printf "${WHITE} 💻 Instalando nodejs...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -101,7 +101,7 @@ system_docker_install() {
   printf "${WHITE} 💻 Instalando docker...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt install -y apt-transport-https \
@@ -134,7 +134,7 @@ system_puppeteer_dependencies() {
   printf "${WHITE} 💻 Instalando puppeteer dependencies...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt-get install -y libxshmfence-dev \
@@ -195,7 +195,7 @@ system_pm2_install() {
   printf "${WHITE} 💻 Instalando pm2...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   npm install -g pm2
@@ -216,7 +216,7 @@ system_snapd_install() {
   printf "${WHITE} 💻 Instalando snapd...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt install -y snapd
@@ -237,7 +237,7 @@ system_certbot_install() {
   printf "${WHITE} 💻 Instalando certbot...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt-get remove certbot
@@ -258,7 +258,7 @@ system_nginx_install() {
   printf "${WHITE} 💻 Instalando nginx...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   apt install -y nginx
@@ -278,7 +278,7 @@ system_nginx_restart() {
   printf "${WHITE} 💻 reiniciando nginx...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - root <<EOF
   service nginx restart
@@ -297,7 +297,7 @@ system_nginx_conf() {
   printf "${WHITE} 💻 configurando nginx...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
 sudo su - root << EOF
 
@@ -320,7 +320,7 @@ system_certbot_setup() {
   printf "${WHITE} 💻 Configurando certbot...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   backend_domain=$(echo "${backend_url/https:\/\/}")
   frontend_domain=$(echo "${frontend_url/https:\/\/}")

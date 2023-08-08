@@ -12,7 +12,7 @@ frontend_node_dependencies() {
   printf "${WHITE} 💻 Instalando dependências do frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
@@ -32,7 +32,7 @@ frontend_node_build() {
   printf "${WHITE} 💻 Compilando o código do frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
@@ -53,7 +53,7 @@ frontend_update() {
   printf "${WHITE} 💻 Atualizando o frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket
@@ -79,7 +79,7 @@ frontend_set_env() {
   printf "${WHITE} 💻 Configurando variáveis de ambiente (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   # ensure idempotency
   backend_url=$(echo "${backend_url/https:\/\/}")
@@ -105,7 +105,7 @@ frontend_start_pm2() {
   printf "${WHITE} 💻 Iniciando pm2 (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
@@ -126,7 +126,7 @@ frontend_nginx_setup() {
   printf "${WHITE} 💻 Configurando nginx (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 10
+  sleep 2
 
   frontend_hostname=$(echo "${frontend_url/https:\/\/}")
 

@@ -12,7 +12,7 @@
 #   printf "${WHITE} 💻 Criando banco de dados...${GRAY_LIGHT}"
 #   printf "\n\n"
 
-#   sleep 12
+#   sleep 2
 
 #   sudo su - root <<EOF
 #   usermod -aG docker ${$deploy_user}
@@ -40,12 +40,22 @@ backend_mysql_create() {
 #    local db_user="your_mysql_user"
 #    local db_password="your_mysql_password"
 #    local db_name="sample_db"
-    local table_name="sample_table"
+
+#    local table_name="sample_table"
+#    USE $db_name;
+
+   print_banner
+   printf "${WHITE} 💻 Criando banco de dados MYSQL ${db_name}...${GRAY_LIGHT}"
+   printf "\n\n"
+
+   sleep 2
+
+
 
     # Create the database and table
     mysql -u "$db_user" -p"$mysql_root_password" <<EOF
     CREATE DATABASE IF NOT EXISTS $db_name;
-    USE $db_name;
+
 EOF
 }
 
@@ -60,7 +70,7 @@ backend_set_env() {
   printf "${WHITE} 💻 Configurando variáveis de ambiente (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   # ensure idempotency
   backend_url=$(echo "${backend_url/https:\/\/}")
@@ -80,7 +90,7 @@ FRONTEND_URL=${frontend_url}
 PROXY_PORT=443
 PORT=8081
 
-DB_HOST=localhost
+DB_HOST=127.0.0.1
 DB_DIALECT=mysql
 DB_USER=${db_user}
 DB_PASS=${db_pass}
@@ -104,7 +114,7 @@ backend_node_dependencies() {
   printf "${WHITE} 💻 Instalando dependências do backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user}<<EOF
   cd /home/${deploy_user}/whaticket/backend
@@ -124,7 +134,7 @@ backend_node_build() {
   printf "${WHITE} 💻 Compilando o código do backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user}<<EOF
   cd /home/${deploy_user}/whaticket/backend
@@ -145,7 +155,7 @@ backend_update() {
   printf "${WHITE} 💻 Atualizando o backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket
@@ -159,7 +169,7 @@ backend_update() {
   pm2 restart all
 EOF
 
-  sleep 12
+  sleep 2
 }
 
 #######################################
@@ -179,7 +189,7 @@ backend_db_migrate() {
   npx sequelize db:migrate
 EOF
 
-  sleep 12
+  sleep 2
 }
 
 #######################################
@@ -199,7 +209,7 @@ backend_db_seed() {
   npx sequelize db:seed:all
 EOF
 
-  sleep 12
+  sleep 2
 }
 
 #######################################
@@ -213,7 +223,7 @@ backend_start_pm2() {
   printf "${WHITE} 💻 Iniciando pm2 (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
@@ -233,7 +243,7 @@ backend_nginx_setup() {
   printf "${WHITE} 💻 Configurando nginx (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   backend_hostname=$(echo "${backend_url/https:\/\/}")
 
