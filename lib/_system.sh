@@ -15,14 +15,11 @@ system_create_user() {
   sleep 2
 
 <<EOF
-
-# Verifica se o usuário já existe
 if id "$deploy_user" &>/dev/null; then
     echo "O usuário $deploy_user já existe."
     exit 1
 fi
 
-# Cria o usuário com a senha fornecida
 sudo useradd -m "$deploy_user" # -m cria o diretório home
 echo -e "$deploy_password\n$deploy_password" | sudo passwd "$deploy_user"
 
