@@ -55,9 +55,12 @@ backend_mysql_create() {
     CREATE DATABASE IF NOT EXISTS $db_name;
     USE $db_name;
 
-
-
 EOF
+   printf "${WHITE} 💻 Testando banco de dados MYSQL ${db_name}...${GRAY_LIGHT}"
+   printf "\n\n"
+ 
+
+   sleep 12
 
 }
 
@@ -184,14 +187,14 @@ backend_db_migrate() {
   printf "${WHITE} 💻 Executando db:migrate...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:migrate
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -204,14 +207,14 @@ backend_db_seed() {
   printf "${WHITE} 💻 Executando db:seed...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 12
+  sleep 2
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:seed:all
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
