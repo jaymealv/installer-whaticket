@@ -50,13 +50,15 @@ backend_mysql_create() {
 
    sleep 2
 
-
-
     # Create the database and table
     mysql -u "$db_user" -p"$mysql_root_password" <<EOF
     CREATE DATABASE IF NOT EXISTS $db_name;
+    USE $db_name;
+
+
 
 EOF
+
 }
 
 
@@ -91,7 +93,7 @@ PROXY_PORT=443
 PORT=8081
 
 DB_HOST=127.0.0.1
-DB_DIALECT=mysql
+DB_DIALECT=
 DB_USER=${db_user}
 DB_PASS=${db_pass}
 DB_NAME=${db_name}
