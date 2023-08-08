@@ -78,10 +78,10 @@ NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
 PROXY_PORT=443
-PORT=8080
+PORT=8081
 
 DB_HOST=localhost
-DB_DIALECT=
+DB_DIALECT=mysql
 DB_USER=${db_user}
 DB_PASS=${db_pass}
 DB_NAME=${db_name}
