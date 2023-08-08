@@ -50,17 +50,29 @@ backend_mysql_create() {
 
    sleep 2
 
-    # Create the database and table
-    mysql -u "$db_user" -p "$mysql_root_password" <<EOF
-    CREATE DATABASE IF NOT EXISTS $db_name;
-    USE $db_name;
+#   apt update
+#   apt install -y mysql-server mysql-client
+
+# Iniciar o MySQL
+#  systemctl start mysql
+#  systemctl enable mysql
+
+  mysql <<EOF
+  ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY '$mysql_root_password';
+  CREATE USER '$db_user'@'localhost' IDENTIFIED BY '$db_pass';
+  GRANT ALL PRIVILEGES ON *.* TO '$db_user'@'localhost';
+  FLUSH PRIVILEGES;
+  
+  mysql -u "$db_user" -p "$mysql_root_password"
+   CREATE DATABASE IF NOT EXISTS $db_name;
 
 EOF
+
    printf "${WHITE} 💻 Testando banco de dados MYSQL ${db_name}...${GRAY_LIGHT}"
    printf "\n\n"
  
 
-   sleep 12
+   sleep 20
 
 }
 
