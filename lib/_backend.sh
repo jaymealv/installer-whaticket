@@ -51,7 +51,7 @@ backend_mysql_create() {
    sleep 2
 
     # Create the database and table
-    mysql -u "$db_user" -p"$mysql_root_password" <<EOF
+    mysql -u "$db_user" -p "$mysql_root_password" <<EOF
     CREATE DATABASE IF NOT EXISTS $db_name;
     USE $db_name;
 
