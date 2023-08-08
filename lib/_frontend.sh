@@ -12,14 +12,14 @@ frontend_node_dependencies() {
   printf "${WHITE} 💻 Instalando dependências do frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
   npm install
 EOF
 
-  sleep 2
+  sleep 10
 }
 
 #######################################
@@ -32,7 +32,7 @@ frontend_node_build() {
   printf "${WHITE} 💻 Compilando o código do frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
@@ -40,7 +40,7 @@ frontend_node_build() {
   npm run build
 EOF
 
-  sleep 2
+  sleep 10
 }
 
 #######################################
@@ -53,7 +53,7 @@ frontend_update() {
   printf "${WHITE} 💻 Atualizando o frontend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket
@@ -65,7 +65,7 @@ frontend_update() {
   pm2 restart all
 EOF
 
-  sleep 2
+  sleep 10
 }
 
 
@@ -79,7 +79,7 @@ frontend_set_env() {
   printf "${WHITE} 💻 Configurando variáveis de ambiente (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   # ensure idempotency
   backend_url=$(echo "${backend_url/https:\/\/}")
@@ -92,7 +92,7 @@ REACT_APP_BACKEND_URL=${backend_url}
 [-]EOF
 EOF
 
-  sleep 2
+  sleep 10
 }
 
 #######################################
@@ -105,7 +105,7 @@ frontend_start_pm2() {
   printf "${WHITE} 💻 Iniciando pm2 (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/frontend
@@ -113,7 +113,7 @@ frontend_start_pm2() {
   pm2 save
 EOF
 
-  sleep 2
+  sleep 10
 }
 
 #######################################
@@ -126,7 +126,7 @@ frontend_nginx_setup() {
   printf "${WHITE} 💻 Configurando nginx (frontend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 10
 
   frontend_hostname=$(echo "${frontend_url/https:\/\/}")
 
@@ -153,5 +153,5 @@ END
 ln -s /etc/nginx/sites-available/whaticket-frontend /etc/nginx/sites-enabled
 EOF
 
-  sleep 2
+  sleep 10
 }

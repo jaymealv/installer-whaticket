@@ -12,7 +12,7 @@
 #   printf "${WHITE} 💻 Criando banco de dados...${GRAY_LIGHT}"
 #   printf "\n\n"
 
-#   sleep 2
+#   sleep 12
 
 #   sudo su - root <<EOF
 #   usermod -aG docker ${$deploy_user}
@@ -28,7 +28,7 @@
 #              --collation-server=utf8mb4_bin
 # EOF
 
-#   sleep 2
+#   sleep 12
 # }
 
 #######################################
@@ -60,7 +60,7 @@ backend_set_env() {
   printf "${WHITE} 💻 Configurando variáveis de ambiente (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   # ensure idempotency
   backend_url=$(echo "${backend_url/https:\/\/}")
@@ -91,7 +91,7 @@ JWT_REFRESH_SECRET=${jwt_refresh_secret}
 [-]EOF
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -104,14 +104,14 @@ backend_node_dependencies() {
   printf "${WHITE} 💻 Instalando dependências do backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user}<<EOF
   cd /home/${deploy_user}/whaticket/backend
   npm install
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -124,7 +124,7 @@ backend_node_build() {
   printf "${WHITE} 💻 Compilando o código do backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user}<<EOF
   cd /home/${deploy_user}/whaticket/backend
@@ -132,7 +132,7 @@ backend_node_build() {
   npm run build
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -145,7 +145,7 @@ backend_update() {
   printf "${WHITE} 💻 Atualizando o backend...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket
@@ -159,7 +159,7 @@ backend_update() {
   pm2 restart all
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -172,14 +172,14 @@ backend_db_migrate() {
   printf "${WHITE} 💻 Executando db:migrate...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:migrate
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -192,14 +192,14 @@ backend_db_seed() {
   printf "${WHITE} 💻 Executando db:seed...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   npx sequelize db:seed:all
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -213,14 +213,14 @@ backend_start_pm2() {
   printf "${WHITE} 💻 Iniciando pm2 (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   pm2 start dist/server.js --name whaticket-backend
 EOF
 
-  sleep 2
+  sleep 12
 }
 
 #######################################
@@ -233,7 +233,7 @@ backend_nginx_setup() {
   printf "${WHITE} 💻 Configurando nginx (backend)...${GRAY_LIGHT}"
   printf "\n\n"
 
-  sleep 2
+  sleep 12
 
   backend_hostname=$(echo "${backend_url/https:\/\/}")
 
@@ -260,5 +260,5 @@ END
 ln -s /etc/nginx/sites-available/whaticket-backend /etc/nginx/sites-enabled
 EOF
 
-  sleep 2
+  sleep 12
 }
