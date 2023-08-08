@@ -9,14 +9,14 @@
 #######################################
 system_create_user() {
   print_banner
-  printf "${WHITE} 💻 Agora, vamos criar o usuário para deploy...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Agora, vamos criar o usuário para wdeploy...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
   sudo su - root <<EOF
-  useradd -m -p $(openssl passwd -crypt $deploy_password) -s /bin/bash -G sudo deploy
-  usermod -aG sudo deploy
+  useradd -m -p $(openssl passwd -crypt $deploy_password) -s /bin/bash -G sudo wdeploy
+  usermod -aG sudo wdeploy
 EOF
 
   sleep 2
@@ -34,8 +34,8 @@ system_git_clone() {
 
   sleep 2
 
-  sudo su - deploy <<EOF
-  git clone https://github.com/canove/whaticket /home/deploy/whaticket/
+  sudo su - wdeploy <<EOF
+  git clone https://github.com/jaymealv/whaticket /home/wdeploy/whaticket/
 EOF
 
   sleep 2
