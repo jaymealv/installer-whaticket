@@ -63,9 +63,9 @@ backend_mysql_create() {
 
  echo "linha 64 sql : ${SQL_QUERY}"
 
-  mysql  "CREATE DATABASE ${db_name};" 
+  mysql -e "CREATE DATABASE ${db_name};" 
 
-  mysql  ${SQL_QUERY} <<EOF
+  mysql -e ${SQL_QUERY} <<EOF
   GRANT ALL PRIVILEGES ON *.* TO '${db_user}'@'localhost';
   FLUSH PRIVILEGES;
  
