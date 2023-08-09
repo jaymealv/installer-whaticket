@@ -63,17 +63,19 @@ backend_mysql_create() {
 
  echo "linha 64 sql : ${SQL_QUERY}"
 
-  mysql -e "CREATE DATABASE ${db_name};" 
+  mysql  "CREATE DATABASE ${db_name};" 
 
-  mysql -e ${SQL_QUERY} <<EOF
-  if [ $? -eq 0 ]; then
-      echo "Usuário MySQL criado com sucesso."
-  else
-      echo "Ocorreu um erro ao criar o usuário MySQL."
-  fi
-  GRANT ALL PRIVILEGES ON *.* TO ${db_user}@'localhost';
+  mysql  ${SQL_QUERY} <<EOF
+  GRANT ALL PRIVILEGES ON *.* TO '${db_user}'@'localhost';
   FLUSH PRIVILEGES;
-  
+ 
+  # if [ $? -eq 0 ]; then
+  #     echo "Usuário MySQL criado com sucesso."
+  # else
+  #     echo "Ocorreu um erro ao criar o usuário MySQL."
+  # fi
+ 
+
 EOF
 
    printf "${WHITE} 💻 Testando banco de dados MYSQL ${db_name}...${GRAY_LIGHT}"
