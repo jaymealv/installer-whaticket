@@ -43,27 +43,27 @@ backend_mysql_create() {
 
 #    local table_name="sample_table"
 #    USE $db_name;
-
+# ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY ${mysql_root_password};
+ 
    print_banner
    printf "${WHITE} 💻 Criando banco de dados MYSQL ${db_name}...${GRAY_LIGHT}"
    printf "\n\n"
 
    sleep 2
 
-   apt update
-   apt install -y mysql-server
+#   apt update
+#   apt install -y mysql-server
 
 # Iniciar o MySQL
-  systemctl start mysql
-  systemctl enable mysql
+#  systemctl start mysql
+#  systemctl enable mysql
 
   mysql <<EOF
-  ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY ${mysql_root_password};
   CREATE USER ${db_user}@'localhost' IDENTIFIED BY ${db_pass};
   GRANT ALL PRIVILEGES ON *.* TO ${db_user}@'localhost';
   FLUSH PRIVILEGES;
   
-  mysql -u ${db_user} -p ${mysql_root_password}
+  mysql -u ${db_user} -p${db_pass}
    CREATE DATABASE IF NOT EXISTS ${db_name};
 
 EOF
