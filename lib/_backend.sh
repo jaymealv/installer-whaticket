@@ -59,22 +59,20 @@ backend_mysql_create() {
 #  systemctl enable mysql
 
 # Comando SQL para criar o usuário
- SQL_QUERY="CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${db_pass}';"
+ #SQL_QUERY="CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${db_pass}';"
 
- echo "linha 64 sql : ${SQL_QUERY}"
+  mysql -u root -pjjagf -e "CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH>
 
-  mysql -e "CREATE DATABASE ${db_name};" 
-
-  mysql -e ${SQL_QUERY} <<EOF
+  mysql -u root -pjjagf -e "CREATE DATABASE ${db_name};"
+  if [ $? -eq 0 ]; then
+       echo "Usuário ${db_name} MySQL criado com sucesso."
+  else
+       echo "Ocorreu um erro ao criar o usuário ${db_name} MySQL."
+  fi
+ 
+  mysql -u root -pjjagf <EOF
   GRANT ALL PRIVILEGES ON *.* TO '${db_user}'@'localhost';
   FLUSH PRIVILEGES;
- 
-  # if [ $? -eq 0 ]; then
-  #     echo "Usuário MySQL criado com sucesso."
-  # else
-  #     echo "Ocorreu um erro ao criar o usuário MySQL."
-  # fi
- 
 
 EOF
 
