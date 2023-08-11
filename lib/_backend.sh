@@ -69,7 +69,7 @@ backend_mysql_create() {
 
   mysql -u root -pjjagf -e "CREATE DATABASE ${db_name};"
  
-  mysql -u root -pjjagf <EOF
+  mysql -u root -pjjagf <<EOF
   GRANT ALL PRIVILEGES ON *.* TO '${db_user}'@'localhost';
   FLUSH PRIVILEGES;
 
@@ -140,7 +140,7 @@ backend_node_dependencies() {
 
   sleep 2
 
-  sudo su - ${deploy_user}<<EOF
+  sudo su - ${deploy_user} <<EOF
   cd /home/${deploy_user}/whaticket/backend
   npm install
 EOF
