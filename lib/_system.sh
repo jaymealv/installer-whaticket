@@ -75,6 +75,7 @@ EOF
 # Arguments:
 #   None original
 # curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+# nvm use 14.21.3
 #######################################
 system_node_install() {
   print_banner
@@ -84,9 +85,8 @@ system_node_install() {
   sleep 2
 
   sudo su - root <<EOF
-  curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+  curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
   apt-get install -y nodejs
-  nvm use 14.21.3
 EOF
 
   sleep 12

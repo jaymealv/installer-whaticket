@@ -43,7 +43,7 @@ system_pm2_install
 ###### fora system_docker_install
 # fora system_puppeteer_dependencies
 system_snapd_install
-#system_nginx_install
+system_nginx_install
 system_certbot_install
 
 # system config
