@@ -57,18 +57,17 @@ backend_mysql_create() {
 # Iniciar o MySQL
 #  systemctl start mysql
 #  systemctl enable mysql
-
+# if [ $? -eq 0 ]; then
+ #      echo "O Usuário ${db_name} MySQL criado com sucesso."
+ # else
+ #      echo "Ocorreu um erro ao criar o usuário ${db_name} MySQL."
+ # fi
 # Comando SQL para criar o usuário
  #SQL_QUERY="CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${db_pass}';"
 
-  mysql -u root -pjjagf -e "CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH>
+  mysql -u root -pjjagf -e "CREATE USER '${db_user}'@'localhost' IDENTIFIED WITH mysql_native_password BY '${db_pass}';"
 
   mysql -u root -pjjagf -e "CREATE DATABASE ${db_name};"
-  if [ $? -eq 0 ]; then
-       echo " O Usuário ${db_name} MySQL criado com sucesso."
-  else
-       echo "Ocorreu um erro ao criar o usuário ${db_name} MySQL."
-  fi
  
   mysql -u root -pjjagf <EOF
   GRANT ALL PRIVILEGES ON *.* TO '${db_user}'@'localhost';
@@ -92,7 +91,7 @@ EOF
 #######################################
 backend_set_env() {
   print_banner
-  printf "${WHITE} 💻 Configurando variáveis de ambiente (backend)...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Configurando variáveis de ambiente (backend)..${deploy_user}.${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -136,7 +135,7 @@ EOF
 #######################################
 backend_node_dependencies() {
   print_banner
-  printf "${WHITE} 💻 Instalando dependências do backend...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Instalando dependências  backend.${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -156,7 +155,7 @@ EOF
 #######################################
 backend_node_build() {
   print_banner
-  printf "${WHITE} 💻 Compilando o código do backend...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Compilando o código do backend.${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -177,7 +176,7 @@ EOF
 #######################################
 backend_update() {
   print_banner
-  printf "${WHITE} 💻 Atualizando o backend...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Atualizando o backend.${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -204,7 +203,7 @@ EOF
 #######################################
 backend_db_migrate() {
   print_banner
-  printf "${WHITE} 💻 Executando db:migrate...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Executando db:migrate.${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -224,7 +223,7 @@ EOF
 #######################################
 backend_db_seed() {
   print_banner
-  printf "${WHITE} 💻 Executando db:seed...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Executando db:seed.${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -245,7 +244,7 @@ EOF
 #######################################
 backend_start_pm2() {
   print_banner
-  printf "${WHITE} 💻 Iniciando pm2 (backend)...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Iniciando pm2 (backend).${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -265,7 +264,7 @@ EOF
 #######################################
 backend_nginx_setup() {
   print_banner
-  printf "${WHITE} 💻 Configurando nginx (backend)...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Configurando nginx (backend).${deploy_user}..${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
