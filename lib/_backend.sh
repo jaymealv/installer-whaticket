@@ -65,7 +65,7 @@ backend_mysql_create() {
 
   mysql -u root -pjjagf -e "CREATE DATABASE ${db_name};"
   if [ $? -eq 0 ]; then
-       echo "Usuário ${db_name} MySQL criado com sucesso."
+       echo " O Usuário ${db_name} MySQL criado com sucesso."
   else
        echo "Ocorreu um erro ao criar o usuário ${db_name} MySQL."
   fi
@@ -80,7 +80,7 @@ EOF
    printf "\n\n"
  
 
-   sleep 20
+   sleep 12
 
 }
 
@@ -113,7 +113,7 @@ NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
 PROXY_PORT=443
-PORT=8081
+PORT=7773
 
 DB_HOST=127.0.0.1
 DB_DIALECT=
@@ -279,7 +279,7 @@ server {
   server_name $backend_hostname;
 
   location / {
-    proxy_pass http://127.0.0.1:8081;
+    proxy_pass http://127.0.0.1:7773;
     proxy_http_version 1.1;
     proxy_set_header Upgrade \$http_upgrade;
     proxy_set_header Connection 'upgrade';
