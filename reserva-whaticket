@@ -48,8 +48,6 @@ inquiry_options
 
 # system config
 system_create_user
-
-# # backend related
 # system_git_clone
 # backend_set_env
 # backend_mysql_create
@@ -61,6 +59,7 @@ system_create_user
 # backend_nginx_setup
 
 # frontend related
+system_git_clone
 frontend_set_env
 frontend_node_dependencies
 frontend_node_build
